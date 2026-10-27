@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Retraction to Cementation</title>
+<meta name="description" content="Clinical experience with Kulzer materials: RetraXil blue, Flexitime unlimited and iCEM Universal Plus. One case, start to finish.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* ───────────── Fonts ───────────── */
+@font-face{font-family:"Archivo";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;
+  src:url(assets/fonts/archivo-latin-standard-normal.woff2) format("woff2-variations"),url(assets/fonts/archivo-latin-standard-normal.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Archivo";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;
+  src:url(assets/fonts/archivo-latin-ext-standard-normal.woff2) format("woff2-variations");
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Archivo";font-style:italic;font-display:swap;font-weight:100 900;font-stretch:62% 125%;
+  src:url(assets/fonts/archivo-latin-standard-italic.woff2) format("woff2-variations")}
+
+/* ───────────── Tokens ───────────── */
+:root{
+  /* Kulzer master */
+  --paper:#FFFFFF; --mist:#EEF2F4; --line:#D9DEE1;
+  --ink:#2E2E2D; --text:#57575A; --muted:#8B8E91;
+  --kulzer:#A5D30C;
+  /* RetraXil blue */
+  --rx:#1675AB; --rx-deep:#0B4F7A; --rx-cyan:#00B0F0; --rx-tint:#E8F1F5;
+  /* Flexitime unlimited */
+  --fx-grey:#54585D;
+  --fx-grad:linear-gradient(90deg,#56409E 0%,#BF3B93 16%,#F43597 28%,#FD3753 42%,#FF6C3E 55%,#FECA45 70%,#FCE947 80%,#78C24A 100%);
+  --fx-grad-v:linear-gradient(180deg,#56409E 0%,#BF3B93 16%,#F43597 28%,#FD3753 42%,#FF6C3E 55%,#FECA45 70%,#FCE947 80%,#78C24A 100%);
+  --fx:#F43597;
+  /* iCEM Universal Plus */
+  --ic:#F3920F; --ic-dark:#EE7100; --ic-light:#FAB85A; --ic-peach:#FEEADA;
+
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --ease-io:cubic-bezier(.75,0,.25,1);
+  --m:120px; /* stage side margin */
+  --chrome-bg:#E6E9EB;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--chrome-bg);color:var(--text);font-family:"Archivo",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-kerning:normal}
+body{overflow:hidden}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ───────────── Stage ───────────── */
+.deck{position:fixed;inset:0;overflow:hidden}
+.stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(var(--s,.5));
+  transform-origin:50% 50%;background:var(--paper);overflow:hidden;box-shadow:0 30px 80px -40px rgba(30,40,50,.35)}
+.slide{position:absolute;inset:0;background:var(--paper);visibility:hidden;opacity:0;transition:opacity .45s var(--ease),visibility 0s .45s}
+.slide.is-active{visibility:visible;opacity:1;transition:opacity .45s var(--ease),visibility 0s 0s;z-index:2}
+.slide .notes{display:none}
+
+/* staged reveal: one orchestrated entrance per slide */
+.slide [data-r]{opacity:0;transform:translateY(26px)}
+.slide.is-in [data-r]{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .9s var(--ease);
+  transition-delay:calc(var(--i,0) * 80ms + 120ms)}
+.slide [data-r="fade"]{transform:none}
+.slide [data-r="left"]{transform:translateX(-40px)}
+.slide [data-r="scale"]{transform:scale(.96)}
+
+/* ───────────── Type ───────────── */
+.display{font-size:156px;line-height:.88;font-weight:780;font-stretch:70%;letter-spacing:-.012em;color:var(--ink)}
+.h1{font-size:92px;line-height:.96;font-weight:760;font-stretch:72%;letter-spacing:-.01em;color:var(--ink)}
+.h2{font-size:58px;line-height:1;font-weight:720;font-stretch:76%;color:var(--ink)}
+.lead{font-size:38px;line-height:1.22;font-weight:360;color:var(--text);font-stretch:96%}
+.body{font-size:27px;line-height:1.42;font-weight:400}
+.small{font-size:21px;line-height:1.4;color:var(--muted)}
+.strong{font-weight:680;color:var(--ink)}
+.num{font-stretch:68%;font-weight:760;font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.01em;line-height:.9}
+
+/* placeholders the client still has to fill */
+.ph{background:repeating-linear-gradient(90deg,rgba(243,146,15,.14) 0 10px,rgba(243,146,15,.08) 10px 20px);
+  box-shadow:inset 0 -3px 0 var(--ic);padding:0 .18em;border-radius:3px;color:var(--ink)}
+
+/* ───────────── Shared slide chrome ───────────── */
+.band{position:absolute;left:0;right:0;top:0;height:22px}
+[data-chapter="retraxil"] .band{background:url(assets/retraxil-canyon.webp) center 38%/cover}
+[data-chapter="flexitime"] .band{background:var(--fx-grad)}
+[data-chapter="icem"] .band{background:url(assets/icem-pattern.svg) center/1920px 1080px}
+[data-chapter="bite"] .band{background:var(--kulzer)}
+.mark{position:absolute;top:84px;right:var(--m);height:62px}
+.mark img{height:100%;width:auto}
+.title{position:absolute;left:var(--m);top:112px;max-width:1240px}
+.title .h1+.lead{margin-top:22px}
+.s-rx-hero .folio{color:rgba(255,255,255,.7)}
+.folio{position:absolute;left:var(--m);bottom:56px;font-size:20px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+/* Case track: where we are in the case (a real sequence) */
+.track{position:absolute;right:var(--m);bottom:46px;width:860px;height:74px;display:grid;grid-template-columns:repeat(4,1fr);align-items:start}
+.track::before{content:"";position:absolute;left:9px;right:calc(25% - 9px);top:8px;height:2px;background:var(--line)}
+.track .fill{position:absolute;left:9px;top:8px;height:2px;width:0;max-width:calc(75% - 9px);background:linear-gradient(90deg,var(--rx),var(--kulzer) 33%,#F43597 66%,var(--ic));
+  transition:width 1.1s var(--ease) .2s}
+.track .stop{position:relative;display:flex;flex-direction:column;gap:14px;align-items:flex-start;font-size:19px;line-height:1.15;color:var(--muted)}
+.track .dot{flex:none;width:18px;height:18px;border-radius:50%;background:var(--paper);border:2px solid var(--line);position:relative;z-index:1;transition:transform .5s var(--ease),background .4s}
+.track .stop b{display:block;font-weight:640;color:var(--muted)}
+.track .stop span{display:block;font-size:16px;margin-top:3px}
+.track .stop.done .dot,.track .stop.now .dot{border-color:transparent;background:var(--sc)}
+.track .stop.done b{color:var(--text)}
+.track .stop.now b{color:var(--ink)}
+.track .stop.now .dot{box-shadow:0 0 0 6px color-mix(in srgb,var(--sc) 22%,transparent)}
+.slide.is-in .track .stop.now .dot{animation:pulse 1.6s var(--ease) .5s 1}
+@keyframes pulse{0%{transform:scale(1)}35%{transform:scale(1.45)}100%{transform:scale(1)}}
+.track .stop:nth-child(2){--sc:var(--rx)} .track .stop:nth-child(3){--sc:var(--kulzer)}
+.track .stop:nth-child(4){--sc:#F43597} .track .stop:nth-child(5){--sc:var(--ic)}
+.track .stop:nth-child(4).done .dot,.track .stop:nth-child(4).now .dot{background:var(--fx-grad)}
+.track.on-dark .stop,.track.on-dark .stop b{color:rgba(255,255,255,.75)}
+.track.on-dark::before{background:rgba(255,255,255,.35)}
+
+/* photo placeholder frames */
+.photo{position:relative;overflow:hidden;background:var(--mist);border-radius:6px}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo.empty{background:
+  repeating-linear-gradient(135deg,transparent 0 22px,rgba(22,117,171,.06) 22px 23px),var(--mist);
+  display:flex;align-items:flex-end;padding:28px;outline:2px dashed #C6D0D6;outline-offset:-14px}
+.photo.empty .ph-label{font-size:20px;line-height:1.35;color:var(--muted);max-width:90%}
+.photo.empty .ph-label::before{content:"";display:block;width:44px;height:34px;margin-bottom:14px;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 34' fill='none' stroke='%238B8E91' stroke-width='2.2'%3E%3Crect x='1.5' y='5.5' width='41' height='27' rx='3'/%3E%3Ccircle cx='22' cy='19' r='7.5'/%3E%3Cpath d='M14 5.5l3-4h10l3 4'/%3E%3C/svg%3E")}
+
+/* ───────────── Slide 1: cover ───────────── */
+.s-cover .logo{position:absolute;left:var(--m);top:96px;height:66px}
+.s-cover .titleblock{position:absolute;left:var(--m);top:300px;width:1000px}
+.s-cover .display{margin-bottom:40px}
+.s-cover .lead{max-width:860px}
+.s-cover .sub{margin-top:26px;font-size:25px;line-height:1.45;color:var(--muted);max-width:940px}
+.s-cover .byline{position:absolute;left:var(--m);bottom:96px}
+.s-cover .byline .who{font-size:32px;font-weight:680;color:var(--ink);font-stretch:90%}
+.s-cover .byline .role{font-size:24px;margin-top:6px}
+.slices{position:absolute;right:0;top:0;width:900px;height:1080px}
+.slice{position:absolute;inset:0;background-size:cover;background-position:center}
+.slice.rx{clip-path:polygon(240px 0,500px 0,320px 1080px,60px 1080px);background-image:url(assets/retraxil-canyon.webp);background-size:auto 1300px;background-position:-140px 30%}
+.slice.fx{clip-path:polygon(520px 0,780px 0,600px 1080px,340px 1080px);background:#54585D}
+.slice.fx::before{content:"";position:absolute;inset:0;background:url(assets/flexitime-fingerprint.webp) no-repeat 330px 0/auto 1080px}
+.slice.ic{clip-path:polygon(800px 0,900px 0,900px 1080px,620px 1080px);background:url(assets/icem-pattern.svg) 0 0/1920px 1080px}
+.slice-tags{position:absolute;right:0;bottom:96px;width:900px;height:40px}
+.s-cover .slice{opacity:1}
+.s-cover.is-in .slice{animation:sliceIn 1.2s var(--ease-io) both}
+.s-cover.is-in .slice.fx{animation-delay:.12s}
+.s-cover.is-in .slice.ic{animation-delay:.24s}
+@keyframes sliceIn{from{transform:translateY(-102%)}to{transform:none}}
+
+/* ───────────── RetraXil hero ───────────── */
+.s-rx-hero .visual{position:absolute;left:0;top:0;bottom:0;width:780px;background:url(assets/retraxil-canyon.webp) 48% 38%/auto 1500px;overflow:hidden}
+.s-rx-hero .visual::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,79,122,0) 45%,rgba(11,79,122,.88) 100%)}
+.s-rx-hero .lockup{position:absolute;left:72px;bottom:90px;z-index:1;color:#fff}
+.s-rx-hero .lockup img{height:96px;width:auto}
+.s-rx-hero .lockup .blue{font-size:44px;font-weight:330;margin:6px 0 0 6px;letter-spacing:.01em}
+.s-rx-hero .pack{position:absolute;left:420px;bottom:200px;width:430px;z-index:2;filter:drop-shadow(0 24px 30px rgba(0,30,60,.28))}
+.s-rx-hero .content{position:absolute;left:900px;right:var(--m);top:130px}
+.s-rx-hero .content .lead{margin-top:20px}
+.duo{display:grid;grid-template-columns:1fr 1fr;margin-top:64px;border-top:2px solid var(--rx)}
+.duo>div{padding:26px 40px 0 0}
+.duo>div+div{padding-left:40px;border-left:1px solid var(--line)}
+.duo h3{font-size:30px;font-weight:700;color:var(--rx);font-stretch:85%;margin-bottom:8px}
+.specs{display:grid;grid-template-columns:repeat(4,1fr);gap:0 34px;margin-top:70px}
+.specs .v{font-size:84px;color:var(--rx)}
+.specs .v small{font-size:40px;font-weight:600;margin-left:4px}
+.specs .k{font-size:21px;line-height:1.38;margin-top:14px;color:var(--text)}
+.swatch{display:inline-block;width:84px;height:62px;border-radius:4px;background:linear-gradient(135deg,#2BA5E0,#0C7CAE)}
+
+/* ───────────── RetraXil in the mouth ───────────── */
+.s-rx-mouth .row{position:absolute;left:var(--m);right:var(--m);top:290px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.s-rx-mouth .photo{height:540px}
+.step{display:flex;gap:18px;margin-top:26px;align-items:baseline}
+.step .n{font-size:46px;color:var(--rx);flex:none;width:34px}
+.step p{font-size:25px;line-height:1.38;color:var(--text);max-width:440px}
+.timer{position:absolute;right:26px;top:26px;width:132px;height:132px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;box-shadow:0 10px 30px -12px rgba(11,79,122,.45)}
+.timer svg{position:absolute;inset:8px;transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:7}
+.timer .bg{stroke:var(--rx-tint)}
+.timer .fg{stroke:var(--rx);stroke-linecap:round;stroke-dasharray:364.4;stroke-dashoffset:0}
+.timer .t{font-size:38px;color:var(--ink);position:relative}
+
+/* ───────────── Flexitime chrome ───────────── */
+.fx-lockup{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.fx-lockup .name{font-size:52px;font-weight:330;color:var(--fx-grey);letter-spacing:-.01em;line-height:1}
+.fx-lockup .name sup{font-size:.36em;vertical-align:top;position:relative;top:.25em;margin-left:2px}
+.fx-lockup .bar{background:var(--fx-grey);color:#fff;font-weight:720;font-size:24px;padding:4px 16px 6px 20px;letter-spacing:.01em}
+.mark.fx-lockup{height:auto;top:70px}
+
+/* By the numbers */
+.stats{position:absolute;left:var(--m);right:var(--m);top:410px;display:grid;grid-template-columns:repeat(5,1fr);gap:0 36px}
+.stat{padding-top:30px;position:relative}
+.stat::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--fx-grad);background-size:500% 100%;background-position:var(--gp) 0}
+.stat:nth-child(1){--gp:0%} .stat:nth-child(2){--gp:25%} .stat:nth-child(3){--gp:50%} .stat:nth-child(4){--gp:75%} .stat:nth-child(5){--gp:100%}
+.stat .v{font-size:156px;color:var(--ink);white-space:nowrap}
+.stat .v small{font-size:60px;font-weight:620;margin-left:4px;color:var(--fx-grey)}
+.stat .k{font-size:30px;font-weight:660;color:var(--ink);margin-top:26px;line-height:1.2}
+.stat .d{font-size:24px;line-height:1.42;margin-top:12px}
+.source{position:absolute;left:var(--m);top:228px;font-size:26px;color:var(--muted)}
+
+/* Flexible-Time-Concept */
+.ftc{position:absolute;left:var(--m);right:var(--m);top:340px;height:420px;--pps:5px;--h:150}
+.ftc .axis{position:absolute;left:0;right:0;top:300px;height:2px;background:var(--line)}
+.ftc .tick{position:absolute;top:300px;width:2px;height:14px;background:var(--line)}
+.ftc .tick span{position:absolute;top:22px;left:50%;transform:translateX(-50%);font-size:19px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ftc .tick.major{height:22px;background:#B8BEC2}
+.ftc .tick.major span{color:var(--text)}
+.ftc .zone{position:absolute;top:60px;height:206px;left:calc(60 * var(--pps));width:calc(90 * var(--pps));
+  background:repeating-linear-gradient(135deg,rgba(84,88,93,.09) 0 12px,transparent 12px 24px);border-left:2px dashed #B8BEC2;border-right:2px dashed #B8BEC2}
+.ftc .zone-label{position:absolute;top:0;left:calc(60 * var(--pps));width:calc(90 * var(--pps));text-align:center;font-size:22px;color:var(--text);font-weight:600}
+.ftc .bar{position:absolute;height:120px;top:120px;border-radius:4px;display:flex;flex-direction:column;justify-content:center;padding:0 26px;overflow:hidden;white-space:nowrap}
+.ftc .handling{left:0;width:calc(var(--h) * var(--pps));background:var(--fx-grey);color:#fff}
+.ftc .mouth{left:calc(var(--h) * var(--pps) + 6px);width:calc(150 * var(--pps));background:var(--fx-grad);color:#fff}
+.ftc .bar b{font-size:30px;font-weight:720;font-stretch:84%}
+.ftc .bar span{font-size:20px;opacity:.92;margin-top:4px}
+.ftc .mouth b,.ftc .mouth span{text-shadow:0 1px 10px rgba(80,20,60,.35)}
+.ftc .snap{position:absolute;top:92px;height:176px;width:4px;background:var(--ink);left:calc((var(--h) + 150) * var(--pps) + 6px)}
+.ftc .snap span{position:absolute;left:18px;top:-6px;font-size:22px;font-weight:680;color:var(--ink);white-space:nowrap;line-height:1.25}
+.ftc .snap span em{display:block;font-style:normal;font-weight:400;color:var(--muted);font-size:20px}
+.ftc input[type=range]{position:absolute;left:calc(60 * var(--pps) - 22px);width:calc(90 * var(--pps) + 44px);top:262px;height:44px;opacity:0;cursor:ew-resize;z-index:3}
+.ftc .knob{position:absolute;top:256px;left:calc(var(--h) * var(--pps) - 18px);width:36px;height:36px;border-radius:50%;background:#fff;border:3px solid var(--fx-grey);box-shadow:0 6px 16px -6px rgba(0,0,0,.35);pointer-events:none}
+.ftc:focus-within .knob{outline:3px solid #F43597;outline-offset:3px}
+.ftc-notes{position:absolute;left:var(--m);right:var(--m);top:776px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:56px}
+.ftc-notes p{font-size:25px;line-height:1.4;border-top:2px solid var(--ink);padding-top:18px}
+.ftc-notes p b{color:var(--ink);font-weight:680}
+.ftc-readout{font-variant-numeric:tabular-nums}
+
+/* ───────────── iCEM ───────────── */
+.s-icem .left{position:absolute;left:var(--m);top:132px;width:660px}
+.s-icem .left .lead{margin-top:22px}
+.modes{margin-top:54px;display:grid;gap:30px}
+.modes .mode{padding-left:26px;border-left:4px solid var(--ic)}
+.modes .mode.alt{border-left-color:var(--ic-light)}
+.modes h3{font-size:28px;font-weight:700;color:var(--ink);font-stretch:86%;margin-bottom:6px}
+.modes p{font-size:23px;line-height:1.42}
+.s-icem .family{position:absolute;left:80px;bottom:150px;width:700px}
+.matrix{position:absolute;left:860px;right:var(--m);top:200px;border-collapse:collapse;font-size:25px;table-layout:fixed}
+.matrix col.c1{width:46%}
+.matrix th{font-weight:400;text-align:center;vertical-align:bottom;padding:0 14px 20px;font-size:21px;line-height:1.3;color:var(--muted)}
+.matrix th b{display:block;font-size:26px;color:var(--ink);font-weight:700;font-stretch:86%;margin-bottom:4px}
+.matrix th:first-child{text-align:left;padding-left:22px}
+.matrix td{height:76px;border-top:1px solid var(--line);text-align:center}
+.matrix td:first-child{text-align:left;padding-left:22px;color:var(--ink);font-weight:520}
+.matrix tr.case td{background:var(--ic-peach)}
+.matrix tr.case td:first-child{box-shadow:inset 5px 0 0 var(--ic)}
+.matrix td:first-child{white-space:nowrap}
+.matrix .tag{display:inline-block;margin-left:12px;font-size:17px;font-weight:640;color:var(--ic-dark);vertical-align:2px}
+.yes,.no{display:inline-block;width:26px;height:26px;border-radius:50%;vertical-align:middle}
+.yes{background:var(--ic)}
+.no{border:2.5px solid #C2C7CB}
+.no+i{font-style:normal;font-size:17px;color:var(--muted);margin-left:10px;vertical-align:middle}
+
+/* ───────────── Chapter wipe (the one big transition) ───────────── */
+.wipe{position:absolute;inset:0;z-index:20;pointer-events:none;clip-path:inset(0 0 0 100%);display:grid;place-items:center}
+.wipe .logo{height:150px;opacity:0;transform:translateY(20px)}
+.wipe.show-logo .logo{opacity:1;transform:none;transition:opacity .35s var(--ease),transform .5s var(--ease)}
+.wipe[data-c="retraxil"]{background:linear-gradient(0deg,rgba(11,79,122,.55),rgba(11,79,122,.25)),url(assets/retraxil-canyon.webp) center 40%/cover}
+.wipe[data-c="flexitime"]{background:var(--fx-grad-v)}
+.wipe[data-c="icem"]{background:url(assets/icem-pattern.svg) center/cover}
+.wipe[data-c="bite"]{background:var(--kulzer)}
+.wipe .fx-lockup .name{color:#fff;font-size:120px}
+.wipe .fx-lockup .bar{font-size:52px;padding:8px 30px 12px 40px}
+.wipe .bite-word{font-size:120px;font-weight:760;font-stretch:72%;color:#fff}
+
+/* ───────────── Screen HUD ───────────── */
+.hud{position:fixed;right:18px;bottom:16px;display:flex;gap:6px;z-index:50;opacity:0;transition:opacity .3s}
+.deck.show-hud .hud,.hud:focus-within{opacity:1}
+.hud button{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;box-shadow:0 4px 14px -6px rgba(0,0,0,.3);color:var(--ink)}
+.hud button:hover{background:#fff}
+.hud svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hud .count{align-self:center;font-size:15px;color:var(--text);padding:0 10px;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.92);height:44px;display:grid;place-items:center;border-radius:22px}
+:focus-visible{outline:3px solid var(--rx-cyan);outline-offset:3px}
+.progress{position:fixed;left:0;bottom:0;height:3px;background:var(--ink);width:0;transition:width .6s var(--ease);z-index:40}
+
+.notes-panel{position:fixed;left:50%;bottom:24px;transform:translate(-50%,calc(100% + 40px));width:min(980px,calc(100vw - 32px));max-height:40vh;overflow:auto;
+  background:rgba(30,32,34,.94);color:#F2F4F5;border-radius:14px;padding:24px 30px;font-size:19px;line-height:1.5;z-index:60;transition:transform .45s var(--ease)}
+.notes-panel.open{transform:translate(-50%,0)}
+.notes-panel h4{font-size:14px;font-weight:600;color:#A9B0B5;margin-bottom:8px;letter-spacing:.02em}
+.help{position:fixed;inset:0;display:none;place-items:center;background:rgba(30,32,34,.55);z-index:70}
+.help.open{display:grid}
+.help div{background:#fff;border-radius:16px;padding:32px 40px;font-size:18px;line-height:1.9;color:var(--ink);min-width:340px}
+.help kbd{display:inline-block;min-width:30px;text-align:center;font:600 14px/26px "Archivo",sans-serif;border:1px solid var(--line);border-bottom-width:3px;border-radius:6px;padding:0 8px;margin-right:12px;color:var(--ink)}
+.help h4{font-size:22px;margin-bottom:10px}
+
+/* ───────────── Overview grid (G) ───────────── */
+.deck.overview .stage{transform:none;left:0;top:0;width:100%;height:auto;min-height:100%;background:none;box-shadow:none;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;padding:24px;position:absolute;inset:0}
+.deck.overview .slide{position:relative;visibility:visible;opacity:1;width:1920px;height:1080px;transform:scale(var(--os,.17));transform-origin:0 0;cursor:pointer;box-shadow:0 0 0 6px transparent}
+.deck.overview .slide-wrap{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#fff;cursor:pointer;outline:3px solid transparent}
+.deck.overview .slide-wrap.current{outline-color:var(--rx-cyan)}
+.deck.overview .wipe{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  .slide [data-r],.slide.is-in [data-r]{transition:opacity .3s linear!important;transform:none!important}
+  .s-cover.is-in .slice{animation:none}
+  .track .fill{transition:none}
+}
+
+/* ───────────── Print / PDF (one slide per page) ───────────── */
+html.print,html.print body{background:#fff;overflow:visible;height:auto}
+html.print .deck{position:static;overflow:visible}
+html.print .stage{position:static;transform:none;width:1920px;height:auto;overflow:visible;box-shadow:none;background:none}
+html.print .slide{position:relative;visibility:visible;opacity:1;width:1920px;height:1080px;overflow:hidden;break-after:page;page-break-after:always;transition:none}
+html.print .slide [data-r]{opacity:1;transform:none;transition:none}
+html.print .slide *{animation:none!important;transition:none!important}
+html.print .hud,html.print .progress,html.print .notes-panel,html.print .wipe,html.print .help{display:none!important}
+@page{size:1920px 1080px;margin:0}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+<main class="stage" id="stage" aria-live="polite">
+
+<!-- ═════════════ 1 · Cover ═════════════ -->
+<section class="slide s-cover" data-chapter="intro" data-stage="0" data-n="1" data-track="none" aria-label="Title">
+  <img class="logo" src="assets/kulzer-logo.svg" alt="Kulzer, Mitsui Chemicals Group" data-r="fade">
+  <div class="titleblock">
+    <h1 class="display" data-r>From retraction<br>to cementation</h1>
+    <p class="lead" data-r>Our clinical experience with Kulzer materials</p>
+    <p class="sub" data-r>One case, start to finish: RetraXil blue, Flexitime unlimited and iCEM Universal Plus</p>
+  </div>
+  <div class="byline" data-r>
+    <p class="who"><span class="ph">[Your name]</span></p>
+    <p class="role">Lab Manager, <span class="ph">[clinic name]</span></p>
+  </div>
+  <div class="slices" aria-hidden="true">
+    <div class="slice rx"></div><div class="slice fx"></div><div class="slice ic"></div>
+  </div>
+  <aside class="notes">Welcome. Introduce the title: one case, followed from retraction to cementation, with three Kulzer materials.</aside>
+</section>
+
+<!-- ═════════════ 7 · RetraXil blue: what it is ═════════════ -->
+<section class="slide s-rx-hero" data-chapter="retraxil" data-stage="1" data-n="7" aria-label="RetraXil blue: what it is">
+  <div class="visual" data-r="fade" role="img" aria-label="Horseshoe Bend, the RetraXil key visual"></div>
+  <div class="lockup" data-r="left">
+    <img src="assets/retraxil-logo-white.svg" alt="RetraXil">
+    <p class="blue">blue</p>
+  </div>
+  <img class="pack" src="assets/retraxil-pack.webp" alt="RetraXil blue starter pack and syringe" data-r="scale">
+  <div class="content">
+    <h2 class="h1" data-r>Astringent<br>retraction paste</h2>
+    <p class="lead" data-r>Mechanical + chemical retraction</p>
+    <div class="duo" data-r>
+      <div><h3>Mechanical</h3><p class="body">Elastic, cord-like paste temporarily displaces the gingiva</p></div>
+      <div><h3>Chemical</h3><p class="body">15% aluminum chloride for hemostasis</p></div>
+    </div>
+    <div class="specs">
+      <div data-r><p class="v num">2<small>min</small></p><p class="k">Dwell time, then rinse completely</p></div>
+      <div data-r><p class="v num">0.9<small>mm</small></p><p class="k">Ultra-thin cannula reaches deep, narrow sulcus and interproximal areas</p></div>
+      <div data-r><p class="v num">0</p><p class="k">Adrenaline, so no risk of systemic side effects</p></div>
+      <div data-r><p class="v"><span class="swatch"></span></p><p class="k">Vivid blue for high contrast against the gingiva</p></div>
+    </div>
+  </div>
+  <aside class="notes">Aluminum chloride acts only at the tissue surface, unlike vasoconstrictors such as adrenaline. Per Kulzer, it has the thinnest cannula and highest viscosity among the syringe pastes they benchmarked.</aside>
+</section>
+
+<!-- ═════════════ 9 · RetraXil blue in the mouth ═════════════ -->
+<section class="slide s-rx-mouth" data-chapter="retraxil" data-stage="1" data-n="9" aria-label="RetraXil blue in the mouth">
+  <div class="band"></div>
+  <div class="mark"><img src="assets/retraxil-logo.svg" alt="RetraXil"></div>
+  <div class="title"><h2 class="h1" data-r>RetraXil blue in the mouth</h2></div>
+  <div class="row">
+    <div data-r>
+      <figure class="photo empty"><figcaption class="ph-label">Photo: application, paste welling out of the sulcus</figcaption></figure>
+      <div class="step"><span class="n num">1</span><p>Apply until the excess wells out of the sulcus all around the tooth</p></div>
+    </div>
+    <div data-r>
+      <figure class="photo empty"><figcaption class="ph-label">Photo: paste in place during the dwell time</figcaption>
+        <div class="timer" aria-label="2 minute dwell time"><svg viewBox="0 0 116 116"><circle class="bg" cx="58" cy="58" r="58" transform="scale(.9) translate(6.4 6.4)"/><circle class="fg" cx="58" cy="58" r="58" transform="scale(.9) translate(6.4 6.4)"/></svg><span class="t num" data-timer="120">2:00</span></div>
+      </figure>
+      <div class="step"><span class="n num">2</span><p>Leave it for 2 minutes, never longer</p></div>
+    </div>
+    <div data-r>
+      <figure class="photo empty"><figcaption class="ph-label">Photo: open, dry, blood-free sulcus after rinsing</figcaption></figure>
+      <div class="step"><span class="n num">3</span><p>Rinse with air-water spray and suction: open, dry, blood-free sulcus</p></div>
+    </div>
+  </div>
+  <aside class="notes">Sufficient material is applied when excess wells out of the sulcus all the way around the tooth.</aside>
+</section>
+
+<!-- ═════════════ 12 · By the numbers ═════════════ -->
+<section class="slide s-fx-numbers" data-chapter="flexitime" data-stage="3" data-n="12" aria-label="Flexitime unlimited by the numbers">
+  <div class="band"></div>
+  <div class="mark fx-lockup" aria-label="Flexitime unlimited"><span class="name">Flexitime<sup>®</sup></span><span class="bar">unlimited</span></div>
+  <div class="title"><h2 class="h1" data-r>By the numbers</h2></div>
+  <p class="source" data-r>Flexitime unlimited, Kulzer data</p>
+  <div class="stats">
+    <div class="stat" data-r><p class="v num"><span data-count="160">160</span><small>%</small></p><p class="k">Elongation at break</p><p class="d">Tear resistance close to polyether</p></div>
+    <div class="stat" data-r><p class="v num"><span data-count="57">57</span><small>Shore A</small></p><p class="k">Hardness</p><p class="d">Easier to remove from the mouth while keeping margins accurate</p></div>
+    <div class="stat" data-r><p class="v num"><span data-count="99.8" data-dec="1">99.8</span><small>%</small></p><p class="k">Recovery after deformation</p><p class="d">Minimal distortion on removal</p></div>
+    <div class="stat" data-r><p class="v num"><span data-count="5.6" data-dec="1">5.6</span><small>mm</small></p><p class="k">Shark-fin flow</p><p class="d">Reaches the sulcus, fewer voids</p></div>
+    <div class="stat" data-r><p class="v num">~<span data-count="7">7</span><small>%</small></p><p class="k">Flowability change</p><p class="d">Stable flowability over time, from 30 s to 90 s</p></div>
+  </div>
+  <aside class="notes">Keep this slide short. The point is: flexible enough to come out without tearing, stable enough to stay accurate.</aside>
+</section>
+
+<!-- ═════════════ 13 · Flexible-Time-Concept ═════════════ -->
+<section class="slide s-fx-time" data-chapter="flexitime" data-stage="3" data-n="13" aria-label="The Flexible-Time-Concept">
+  <div class="band"></div>
+  <div class="mark fx-lockup" aria-label="Flexitime unlimited"><span class="name">Flexitime<sup>®</sup></span><span class="bar">unlimited</span></div>
+  <div class="title"><h2 class="h1" data-r>The Flexible-Time-Concept</h2><p class="lead" data-r>Real “Snap-Set”</p></div>
+  <div class="ftc" id="ftc" data-r="fade">
+    <div class="zone"></div>
+    <p class="zone-label">Flexible handling time, 1:00 to 2:30 min</p>
+    <div class="bar handling"><b>Handling</b><span class="ftc-readout" data-ftc="handling">2:30 min</span></div>
+    <div class="bar mouth"><b>In the mouth</b><span>2:30 min curing time</span></div>
+    <div class="snap"><span>Fully cured<em class="ftc-readout" data-ftc="out">out at 5:00 min</em></span></div>
+    <div class="axis"></div>
+    <div class="ticks"></div>
+    <div class="knob"></div>
+    <input type="range" min="60" max="150" step="5" value="150" aria-label="Handling time in seconds">
+  </div>
+  <div class="ftc-notes">
+    <p data-r><b>You choose the working time.</b> The time in the mouth stays short.</p>
+    <p data-r><b>Fully cured once setting time is up,</b> with no prolonged deformable phase.</p>
+    <p data-r><b>No rushing the syringe step,</b> and the patient doesn’t pay for it with a longer time in the mouth.</p>
+  </div>
+  <aside class="notes">This is what changed our day: we don't rush the syringe step, and the patient doesn't pay for it with a longer time in the mouth. Drag the handle on the timeline to show how the time in the mouth stays the same.</aside>
+</section>
+
+<!-- ═════════════ 18 · iCEM Universal Plus ═════════════ -->
+<section class="slide s-icem" data-chapter="icem" data-stage="4" data-n="18" aria-label="Cementation: iCEM Universal Plus">
+  <div class="band"></div>
+  <div class="left">
+    <img src="assets/icem-logo-grey.svg" alt="iCEM Universal Plus" style="height:96px;width:auto;margin-bottom:46px" data-r="fade">
+    <h2 class="h1" data-r>One cement,<br>two modes</h2>
+    <div class="modes">
+      <div class="mode" data-r><h3>Self-adhesive mode</h3><p>No primer. For enamel, dentin, metal, zirconia, alumina</p></div>
+      <div class="mode alt" data-r><h3>Adhesive mode</h3><p>With iCEM Universal Primer. Required for glass/silicate ceramics (e.max) and resin-based materials</p></div>
+      <div class="mode alt" data-r><h3>Long-Lasting Silane in the primer</h3><p>No separate silane step for e.max</p></div>
+    </div>
+  </div>
+  <table class="matrix" data-r="fade">
+    <colgroup><col class="c1"><col><col></colgroup><thead><tr><th>Substrate</th><th><b>Adhesive mode</b>with iCEM Universal Primer</th><th><b>Self-adhesive mode</b>no primer</th></tr></thead>
+    <tbody>
+      <tr><td>Enamel</td><td><span class="yes" aria-label="Yes"></span></td><td><span class="yes" aria-label="Yes"></span></td></tr>
+      <tr><td>Dentin</td><td><span class="yes" aria-label="Yes"></span></td><td><span class="yes" aria-label="Yes"></span></td></tr>
+      <tr><td>Metal</td><td><span class="yes" aria-label="Yes"></span></td><td><span class="yes" aria-label="Yes"></span></td></tr>
+      <tr class="case"><td>Zirconia <span class="tag">Case 1</span></td><td><span class="yes" aria-label="Yes"></span></td><td><span class="yes" aria-label="Yes"></span></td></tr>
+      <tr><td>Alumina</td><td><span class="yes" aria-label="Yes"></span></td><td><span class="yes" aria-label="Yes"></span></td></tr>
+      <tr class="case"><td>Glass/silicate ceramics (e.max) <span class="tag">Case 2</span></td><td><span class="yes" aria-label="Yes"></span></td><td><span class="no" aria-label="No"></span><i>primer needed</i></td></tr>
+      <tr><td>Resin-based</td><td><span class="yes" aria-label="Yes"></span></td><td><span class="no" aria-label="No"></span><i>primer needed</i></td></tr>
+    </tbody>
+  </table>
+  <aside class="notes">Per Kulzer's indications, our zirconia crown could be cemented self-adhesively; the e.max crown needs the primer.</aside>
+</section>
+
+<div class="wipe" id="wipe" aria-hidden="true"></div>
+</main>
+
+<div class="progress" id="progress"></div>
+<nav class="hud" aria-label="Presentation controls">
+  <button id="bPrev" aria-label="Previous slide"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <span class="count" id="count">1 / 1</span>
+  <button id="bNext" aria-label="Next slide"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button id="bGrid" aria-label="All slides (G)"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1"/></svg></button>
+  <button id="bNotes" aria-label="Speaker notes (N)"><svg viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4z"/></svg></button>
+  <button id="bFull" aria-label="Full screen (F)"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</nav>
+<aside class="notes-panel" id="notesPanel" aria-live="polite"><h4>Speaker notes</h4><p id="notesText"></p></aside>
+<div class="help" id="help" role="dialog" aria-label="Keyboard shortcuts"><div>
+  <h4>Shortcuts</h4>
+  <p><kbd>→</kbd>Next &nbsp; <kbd>←</kbd>Previous</p>
+  <p><kbd>F</kbd>Full screen</p>
+  <p><kbd>N</kbd>Speaker notes</p>
+  <p><kbd>G</kbd>All slides</p>
+  <p><kbd>Home</kbd>First slide &nbsp; <kbd>End</kbd>Last</p>
+</div></div>
+</div>
+
+<script>
+(() => {
+  const qs = new URLSearchParams(location.search);
+  const PRINT = qs.has('print');
+  const root = document.documentElement;
+  if (PRINT) root.classList.add('print');
+  addEventListener('beforeprint', () => root.classList.add('print'));
+  addEventListener('afterprint', () => { if (!PRINT) root.classList.remove('print'); });
+
+  const deck = document.getElementById('deck');
+  const stage = document.getElementById('stage');
+  const slides = [...stage.querySelectorAll('.slide')];
+  const wipe = document.getElementById('wipe');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const total = slides.length;
+  let cur = -1, busy = false, queued = null;
+
+  /* ---------- per-slide setup ---------- */
+  const STOPS = [['Retraction','RetraXil blue'],['Bite','Bite registration'],['Impression','Flexitime unlimited'],['Cementation','iCEM Universal Plus']];
+  slides.forEach(s => {
+    s.querySelectorAll('[data-r]').forEach((el, i) => el.style.setProperty('--i', i));
+    if (s.dataset.track !== 'none') {
+      const st = +s.dataset.stage || 0;
+      const t = document.createElement('div');
+      t.className = 'track'; t.setAttribute('aria-label', st ? `Case step ${st} of 4: ${STOPS[st-1][0]}` : 'Case steps');
+      t.innerHTML = '<div class="fill"></div>' + STOPS.map((x, i) => {
+        const k = i + 1, cls = st > 4 || k < st ? 'done' : (k === st ? 'now' : '');
+        return `<div class="stop ${cls}"><i class="dot"></i><div><b>${x[0]}</b><span>${x[1]}</span></div></div>`;
+      }).join('');
+      t.dataset.fill = st > 4 ? 75 : Math.max(0, (st - 1) * 25);
+      s.appendChild(t);
+      const f = document.createElement('p'); f.className = 'folio'; f.textContent = String(s.dataset.n || '').padStart(2, '0');
+      s.appendChild(f);
+    }
+  });
+  const setFill = (s, on) => s.querySelectorAll('.track').forEach(t => t.querySelector('.fill').style.width = on ? `calc(${t.dataset.fill}% )` : '0');
+  if (PRINT) slides.forEach(s => setFill(s, true));
+
+  /* ---------- Flexible-Time-Concept timeline ---------- */
+  const ftc = document.getElementById('ftc');
+  const fmt = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+  if (ftc) {
+    const pps = 5, max = 330, ticks = ftc.querySelector('.ticks');
+    for (let t = 0; t <= max; t += 30) {
+      const d = document.createElement('div'); d.className = 'tick' + (t % 60 === 0 ? ' major' : '');
+      d.style.left = (t * pps - 1) + 'px'; d.innerHTML = `<span>${fmt(t)}</span>`; ticks.appendChild(d);
+    }
+    const range = ftc.querySelector('input');
+    const set = h => {
+      ftc.style.setProperty('--h', h);
+      ftc.querySelector('[data-ftc=handling]').textContent = fmt(h) + ' min';
+      ftc.querySelector('[data-ftc=out]').textContent = 'out at ' + fmt(h + 150) + ' min';
+    };
+    range.addEventListener('input', () => set(+range.value));
+    ['keydown','pointerdown','click'].forEach(ev => range.addEventListener(ev, e => e.stopPropagation()));
+    ftc.play = () => {
+      if (reduced) return set(150);
+      set(60); range.value = 60;
+      const t0 = performance.now(), dur = 2600, delay = 700;
+      const step = now => {
+        const p = Math.min(1, Math.max(0, (now - t0 - delay) / dur));
+        const e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        const v = Math.round((60 + 90 * e) / 5) * 5; set(v); range.value = v;
+        if (p < 1 && slides[cur] && slides[cur].contains(ftc)) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    set(150);
+  }
+
+  /* ---------- counters & timers ---------- */
+  const countUp = s => s.querySelectorAll('[data-count]').forEach((el, i) => {
+    const to = +el.dataset.count, dec = +(el.dataset.dec || 0);
+    if (reduced) return;
+    const t0 = performance.now() + 250 + i * 90, dur = 1500;
+    el.textContent = (0).toFixed(dec);
+    const step = now => {
+      const p = Math.min(1, Math.max(0, (now - t0) / dur)), e = 1 - Math.pow(1 - p, 4);
+      el.textContent = (to * e).toFixed(dec);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
+  const runTimers = s => s.querySelectorAll('[data-timer]').forEach(el => {
+    if (reduced) return;
+    const secs = +el.dataset.timer, ring = el.parentElement.querySelector('.fg'), C = 364.4;
+    const t0 = performance.now() + 900, dur = 3200; // a 3-second visual sweep of the 2-minute dwell
+    const step = now => {
+      const p = Math.min(1, Math.max(0, (now - t0) / dur));
+      ring.style.strokeDashoffset = (C * p).toFixed(1);
+      el.textContent = fmt(secs * (1 - p));
+      if (p < 1) requestAnimationFrame(step); else setTimeout(() => { ring.style.transition = 'stroke-dashoffset .8s'; ring.style.strokeDashoffset = 0; el.textContent = fmt(secs); setTimeout(() => ring.style.transition = '', 900); }, 900);
+    };
+    requestAnimationFrame(step);
+  });
+
+  /* ---------- wipe content per chapter ---------- */
+  const WIPES = {
+    retraxil: '<img class="logo" src="assets/retraxil-logo-white.svg" alt="">',
+    bite: '<p class="logo bite-word">Bite registration</p>',
+    flexitime: '<div class="logo fx-lockup" style="align-items:center"><span class="name">Flexitime<sup>®</sup></span><span class="bar">unlimited</span></div>',
+    icem: '<img class="logo" src="assets/icem-logo-white.svg" alt="" style="height:190px">'
+  };
+
+  /* ---------- navigation ---------- */
+  function enter(s) {
+    s.classList.add('is-active');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      s.classList.add('is-in'); setFill(s, true); countUp(s); runTimers(s);
+      if (ftc && s.contains(ftc)) ftc.play();
+    }));
+  }
+  function leave(s) { s.classList.remove('is-active', 'is-in'); setFill(s, false); }
+
+  function ui() {
+    document.getElementById('count').textContent = `${cur + 1} / ${total}`;
+    document.getElementById('progress').style.width = `${((cur + 1) / total) * 100}%`;
+    const n = slides[cur].querySelector('.notes');
+    document.getElementById('notesText').textContent = n ? n.textContent.trim() : 'No notes for this slide.';
+    history.replaceState(null, '', `#${cur + 1}`);
+  }
+
+  async function go(n) {
+    n = Math.max(0, Math.min(total - 1, n));
+    if (n === cur) return;
+    if (busy) { queued = n; return; }
+    const a = slides[cur], b = slides[n], dir = n > cur ? 1 : -1;
+    const ch = b.dataset.chapter;
+    const wipeIt = a && !reduced && a.dataset.chapter !== ch && WIPES[ch];
+    cur = n; ui();
+    if (!a) { enter(b); return; }
+    if (!wipeIt) { leave(a); enter(b); return; }
+    busy = true;
+    wipe.dataset.c = ch; wipe.innerHTML = WIPES[ch]; wipe.classList.remove('show-logo');
+    const from = dir > 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)';
+    const to = dir > 0 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)';
+    await wipe.animate([{ clipPath: from }, { clipPath: 'inset(0 0 0 0)' }], { duration: 620, easing: 'cubic-bezier(.75,0,.25,1)', fill: 'forwards' }).finished;
+    leave(a); b.classList.add('is-active');
+    wipe.classList.add('show-logo');
+    await new Promise(r => setTimeout(r, 650));
+    enter(b);
+    await wipe.animate([{ clipPath: 'inset(0 0 0 0)' }, { clipPath: to }], { duration: 620, easing: 'cubic-bezier(.75,0,.25,1)', fill: 'forwards' }).finished;
+    wipe.classList.remove('show-logo');
+    busy = false;
+    if (queued !== null) { const q = queued; queued = null; go(q); }
+  }
+  const next = () => go(cur + 1), prev = () => go(cur - 1);
+
+  /* ---------- scaling ---------- */
+  function fit() {
+    if (deck.classList.contains('overview')) return layoutOverview();
+    const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.setProperty('--s', s);
+  }
+  addEventListener('resize', fit);
+
+  /* ---------- overview ---------- */
+  function layoutOverview() {
+    stage.querySelectorAll('.slide-wrap').forEach(w => {
+      const s = w.firstElementChild; s.style.setProperty('--os', w.clientWidth / 1920);
+    });
+  }
+  function toggleOverview(force) {
+    const on = force ?? !deck.classList.contains('overview');
+    if (on) {
+      slides.forEach((s, i) => {
+        const w = document.createElement('div'); w.className = 'slide-wrap' + (i === cur ? ' current' : '');
+        s.before(w); w.appendChild(s); s.classList.add('is-in');
+        w.addEventListener('click', e => { e.stopPropagation(); toggleOverview(false); const c = cur; cur = -1; slides.forEach(leave); go(i); });
+      });
+      deck.classList.add('overview'); requestAnimationFrame(layoutOverview);
+    } else {
+      stage.querySelectorAll('.slide-wrap').forEach(w => { w.before(w.firstElementChild); w.remove(); });
+      deck.classList.remove('overview');
+      slides.forEach((s, i) => { if (i !== cur) leave(s); });
+      fit();
+    }
+  }
+
+  /* ---------- input ---------- */
+  const notes = document.getElementById('notesPanel'), help = document.getElementById('help');
+  addEventListener('keydown', e => {
+    if (e.target.matches('input,textarea')) return;
+    const k = e.key;
+    if (['ArrowRight','PageDown',' ','Enter'].includes(k)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft','PageUp','Backspace'].includes(k)) { e.preventDefault(); prev(); }
+    else if (k === 'Home') go(0);
+    else if (k === 'End') go(total - 1);
+    else if (k === 'f' || k === 'F') full();
+    else if (k === 'n' || k === 'N') notes.classList.toggle('open');
+    else if (k === 'g' || k === 'G' || (k === 'Escape' && deck.classList.contains('overview'))) toggleOverview();
+    else if (k === '?') help.classList.toggle('open');
+    else if (k === 'Escape') { help.classList.remove('open'); notes.classList.remove('open'); }
+  });
+  function full() { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
+  stage.addEventListener('click', e => {
+    if (deck.classList.contains('overview') || e.target.closest('input,button,a')) return;
+    const r = stage.getBoundingClientRect();
+    (e.clientX - r.left) < r.width * 0.3 ? prev() : next();
+  });
+  let tx = null;
+  addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
+  addEventListener('touchend', e => { if (tx === null) return; const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 50) d < 0 ? next() : prev(); tx = null; });
+  document.getElementById('bPrev').onclick = e => { e.stopPropagation(); prev(); };
+  document.getElementById('bNext').onclick = e => { e.stopPropagation(); next(); };
+  document.getElementById('bFull').onclick = e => { e.stopPropagation(); full(); };
+  document.getElementById('bNotes').onclick = e => { e.stopPropagation(); notes.classList.toggle('open'); };
+  document.getElementById('bGrid').onclick = e => { e.stopPropagation(); toggleOverview(); };
+  help.onclick = () => help.classList.remove('open');
+  let hudT;
+  addEventListener('pointermove', () => { deck.classList.add('show-hud'); clearTimeout(hudT); hudT = setTimeout(() => deck.classList.remove('show-hud'), 2200); });
+  addEventListener('hashchange', () => { const n = parseInt(location.hash.slice(1), 10) - 1; if (!isNaN(n) && n !== cur) go(n); });
+
+  /* ---------- start ---------- */
+  if (!PRINT) {
+    fit();
+    const start = parseInt(location.hash.slice(1), 10) - 1;
+    go(isNaN(start) ? 0 : start);
+  }
+})();
+</script>
+</body>
+</html>
