@@ -297,7 +297,6 @@ html.print .hud,html.print .progress,html.print .notes-panel,html.print .wipe,ht
 /* 2 · About me */
 .s-about .portrait{position:absolute;left:var(--m);top:120px;width:600px;height:800px}
 .s-about .content{position:absolute;left:820px;right:var(--m);top:170px}
-.s-about .h1{font-size:120px}
 .s-about .lead{margin-top:20px}
 .facts{margin-top:80px;border-top:2px solid var(--ink)}
 .facts .row{display:grid;grid-template-columns:200px 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--line)}
@@ -481,3 +480,6 @@ html.presenter .hud{display:none}
   .rotate-hint{display:block;position:fixed;left:16px;right:16px;bottom:28px;text-align:center;font-size:14px;color:var(--text)}
 }
 html.print .rotate-hint,html.presenter .rotate-hint{display:none!important}
+.s-end .contact{display:flex;align-items:center;gap:16px;font-size:36px;font-weight:600}
+.s-end .contact .ig{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:1.8}
+.s-about .h1{font-size:104px}
