@@ -483,3 +483,7 @@ html.print .rotate-hint,html.presenter .rotate-hint{display:none!important}
 .s-end .contact{display:flex;align-items:center;gap:16px;font-size:36px;font-weight:600}
 .s-end .contact .ig{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:1.8}
 .s-about .h1{font-size:104px}
+/* protocol: single highlighted benefit */
+.s-protocol .highlight{margin-top:70px;border-top:4px solid var(--ic);padding-top:30px;max-width:720px}
+.s-protocol .highlight b{display:block;font-size:52px;line-height:1.02;font-weight:760;font-stretch:74%;color:var(--ink)}
+.s-protocol .highlight p{font-size:32px;line-height:1.35;margin-top:16px}
